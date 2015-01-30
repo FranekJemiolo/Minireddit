@@ -1,0 +1,31 @@
+{% extends "myapp/base.html" %}
+{% block title %}
+    Log in
+{% endblock %}
+{% block urlblock %}
+    <li><a href={% url 'index' %}>Home</a></li>
+    <li><a href={% url 'top' %}>Top</a></li>
+    <li><a href={% url 'about' %}>About</a></li>
+    <li><a href={% url 'contact' %}>Contact</a></li>
+    <li><a href={% url 'categories'%}>All categories</a></li>
+    <li><a href={% url 'mycategories'%}>My categories</a></li>
+    <li><a href={% url 'advanced_search'%}>Advanced search</a></li>
+{% endblock %}
+{% block content %}
+    <div class="col-sm-6 blog-main col-sm-offset-5">
+        <form action="" id="user_form" name="user_form" method="post" class="form-login">
+            {% if form.errors %}
+                <p class="error">You have entered wrong username or password.</p>
+            {% endif %}
+            {% csrf_token %}
+            <h2 class="form-login-heading">Please log in</h2>
+            <label for="username" class="sr-only">Username</label>
+            <input type="text" id="username" name="username" value="" class="form-control" placeholder="Username" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+    </div>
+
+{% endblock %}

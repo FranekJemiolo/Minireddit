@@ -1,0 +1,16 @@
+{% extends "myapp/base.html" %}
+
+{% block content %}
+<link href={{STATIC_URL}}css/signin.css rel="stylesheet">
+<form id="user_form" method="post" class="form-login">
+    {% csrf_token %}
+    <h2 class="form-login-heading">You have entered wrong username or password! Please try again.</h2>
+    <label for="inputUsername" class="sr-only">Username</label>
+    <input type="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+    <input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+{% endblock %}

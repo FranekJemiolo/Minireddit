@@ -1,0 +1,38 @@
+{% extends "myapp/base.html" %}
+{% block title %}
+    Add category
+{% endblock %}
+{% block urlblock %}
+    <li><a href={% url 'index' %}>Home</a></li>
+    <li><a href={% url 'top' %}>Top</a></li>
+    <li><a href={% url 'about' %}>About</a></li>
+    <li><a href={% url 'contact' %}>Contact</a></li>
+    <li><a href={% url 'categories'%}>All categories</a></li>
+    <li><a href={% url 'mycategories'%}>My categories</a></li>
+    <li><a href={% url 'advanced_search'%}>Advanced search</a></li>
+{% endblock %}
+{% block content %}
+    {% if added %}
+        <p>Successfully added new category to your newsfeed! You can now view it in "My categories".</p>
+    {% endif %}
+    <p>You can choose which category you want to have added to your categories.</p>
+    <form action="" name="category_form" id="category_form" method="post" class="form-inline">
+        {% csrf_token %}
+        {% if available_category_list%}
+                <div class="form-group">
+                    <div class="input-group">
+                        <select type="text" class="form-control" id="name" name="name">
+                            {% for category in available_category_list %}
+                                <option value={{category}}>{{category}}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-primary">Add!</button>
+                    </div>
+                </div>
+                
+             
+        {% else %}
+            <p>No more available categories to add. You can create more categories if you wish using add->category.</p>
+        {% endif %}
+    </form> 
+{% endblock %}

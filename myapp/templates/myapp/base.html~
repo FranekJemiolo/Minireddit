@@ -1,0 +1,140 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Minireddit |{% block title %}Minireddit{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Minireddit">
+        <meta name="author" content="Franciszek Jemioło">
+        <link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
+        <style>
+            body {
+                padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+            }
+        </style>
+    
+        <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
+        <link href="{{STATIC_URL}}css/bootstrap-theme.css" rel="stylesheet">
+    
+        {% block extrahead %}
+        {% endblock %}
+        <script type="text/javascript">
+        $(function(){
+        {% block jquery %}
+        {% endblock %}
+        });
+        </script>
+  </head>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" style="color:white">Minireddit</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                    {% block urlblock %}
+                    <li class="active"><a href={% url 'index' %}>Home</a></li>
+                    <li><a href={% url 'top' %}>Top</a></li>
+                    <li><a href={% url 'about' %}>About</a></li>
+                    <li><a href={% url 'contact' %}>Contact</a></li>
+                    <li><a href={% url 'categories'%}>All categories</a></li>
+                    <li><a href={% url 'mycategories'%}>My categories</a></li>
+                    <li><a href={% url 'advanced_search'%}>Advanced search</a></li>
+                    {% endblock %}
+                    {% block mycategories %}
+                    {% endblock %}
+                    </ul>
+                    
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <li><a style="color:white">Welcome, {{ user.username }}!</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Newsfeed<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href={% url 'category_addition'%}>Add category</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Add<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href={% url 'category_creation'%}>Category</a></li>
+                            <li><a href={% url 'article_creation'%}>Article</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li><a href={% url 'logout' %}>Logout</a></li>
+                    {% else %}
+                        <li><a href={% url 'index' %}>Login</a></li>
+                        <li><a href={% url 'signin' %}>Sign in</a></li>
+                    {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-8 blog-main">
+
+                    <div class="starter-template">
+                    {% block content %}
+                    {% endblock %}
+                    </div>
+
+                </div>
+                {% if user.is_authenticated %}
+                    {% block searchbar %}
+                    <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+                        
+                        <nav class="navbar navbar-fixed-right">
+                            <div class="sidebar-module sidebar-module-inset">
+                                <h4>Search for</h4>
+
+                                <form action="" name="search_form" id="search_form" method="get" class="form-inline">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <select type="text" class="form-control" id="search_category" name="search_category">
+                                                <option value="categories">Categories</option>
+                                                <option value="mycategories">My categories</option>
+                                                <option value="articles">Articles</option>
+                                            </select>
+                                            <input type="text" method="get" class="form-control" id="search_name_c" name="search_name_c" value="" placeholder="What are you looking for?">
+                                        </div>
+                                        <button type="submit" id="search_category_button" name="search_category_button" class="btn btn-primary btn-block">Search!</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="sidebar-module">
+                                <h4>Search for articles created by user:</h4>
+                                <form action="" name="search_user_form" id="search_user_form" method="get" class="form-inline">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" method="get" class="form-control" id="search_name" name="search_name" value="" placeholder="Who are you looking for?">
+                                        </div>
+                                        <button type="submit" id="search_user_button" name="search_user_button" class="btn btn-primary btn-block">Search!</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </nav>
+                    </div>
+                    {% endblock %}
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+    </body>
+</html>

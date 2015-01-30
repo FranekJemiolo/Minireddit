@@ -1,0 +1,9 @@
+{% if latest_articles_list %}
+    <ul>
+    {% for article in latest_articles_list %}
+        <li>{% article.name %}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No articles are available.</p>
+{% endif %}

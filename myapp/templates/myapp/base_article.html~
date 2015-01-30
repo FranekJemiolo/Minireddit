@@ -1,0 +1,54 @@
+{% extends "myapp/base.html" %}
+{% block title %}
+    Article
+{% endblock %}
+{% block urlblock %}
+    <li><a href={% url 'index' %}>Home</a></li>
+    <li><a href={% url 'top' %}>Top</a></li>
+    <li><a href={% url 'about' %}>About</a></li>
+    <li><a href={% url 'contact' %}>Contact</a></li>
+    <li><a href={% url 'categories'%}>All categories</a></li>
+    <li><a href={% url 'mycategories'%}>My categories</a></li>
+    <li><a href={% url 'advanced_search'%}>Advanced search</a></li>
+{% endblock %}
+{% block content %}
+    <div class="table">
+    <h1><a href={{article.article_url}}>{{ article.name }}</a></h1>
+    <p>{{ article.votes }} Votes Posted {{ article.pub_date }} by {{ article.user.username }} 
+        <a href={% url 'article_vote' article.category.name article.id 1%}><button type="button" class="btn btn-xs btn-success"> Up </button></a>
+        <a href={% url 'article_vote' article.category.name article.id -1%}><button type="button" class="btn btn-xs btn-danger">Down</button></a>
+    </p>
+    {% if voted %}
+        {% if already_voted %}
+            <p>You already voted on this article!</p>
+        {% else %}
+            <p>You have successfully voted on this article</p>
+        {% endif %}
+    {% endif %}
+    <form action="" name="comment_form" id="comment_form" method="post" class="form-horizontal">
+        {% csrf_token %}
+        {% if posted %}
+            <p>You have successfully added comment!</p>
+        {% endif %}
+        {% if comment_form.errors %}
+            <p>Wrong input, invalid characters or your comment is too long.</p>
+        {% endif %}
+        <div class="form-group">
+            <label class="sr-only" for="comment_text">Add comment</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="comment_text" name="comment_text" placeholder="Comment">
+                <button type="submit" class="btn btn-primary btn-block">Comment!</button>
+            </div>
+            
+        </div>
+    </form>
+    <p>Comments:</p>
+    {% for comment in comment_list %}
+        <div class="blog-post">
+            <p class="blog-post-title" style="font-weight:bold">{{ comment.user.username }} said on {{ comment.pub_date }}</p>
+            <p class="blog-post-meta">{{ comment.comment_text }}</p>
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "myapp/base.html" %}
+{% block title %}
+    Log out
+{% endblock %}
+{% block urlblock %}
+    <li><a href={% url 'index' %}>Home</a></li>
+    <li><a href={% url 'top' %}>Top</a></li>
+    <li><a href={% url 'about' %}>About</a></li>
+    <li><a href={% url 'contact' %}>Contact</a></li>
+    <li><a href={% url 'categories'%}>All categories</a></li>
+    <li><a href={% url 'mycategories'%}>My categories</a></li>
+    <li><a href={% url 'advanced_search'%}>Advanced search</a></li>
+{% endblock %}
+{% block content %}
+    <p>You have been logged out</p>
+
+{% endblock %}

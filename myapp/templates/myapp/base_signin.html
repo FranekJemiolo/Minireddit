@@ -1,0 +1,35 @@
+{% extends "myapp/base.html" %}
+{% block title %}
+    Sign in
+{% endblock %}
+{% block urlblock %}
+    <li><a href={% url 'index' %}>Home</a></li>
+    <li><a href={% url 'top' %}>Top</a></li>
+    <li><a href={% url 'about' %}>About</a></li>
+    <li><a href={% url 'contact' %}>Contact</a></li>
+    <li><a href={% url 'categories'%}>All categories</a></li>
+    <li><a href={% url 'mycategories'%}>My categories</a></li>
+    <li><a href={% url 'advanced_search'%}>Advanced search</a></li>
+{% endblock %}
+{% block content %}
+    <div class="col-sm-6 blog-main col-sm-offset-5">
+    {% if registered %}
+        <p>Account successfully created. Please log in to use your account.</p>
+    {% else %}
+        <link href="{{STATIC_URL}}css/signin.css" rel="stylesheet">
+        <form id="user_form" name="user_form" method="post" class="form-signin">
+            {% if user_form.errors %}
+            <p>Wrong username or email or password or user already exists! Please try again.</p>
+            {% endif%}
+            {% csrf_token %}
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <label for="username" class="sr-only">Username</label>
+            <input type="username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+            <label for="email" class="sr-only">Email</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Sign in</button>
+        </form>
+    {% endif %}
+{% endblock %}

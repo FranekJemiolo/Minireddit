@@ -1,0 +1,33 @@
+{% extends "myapp/base.html"%}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    {% if latest_articles_list %}
+        <h1>Latest articles added</h1>
+        <table class="table table-striped">
+            {% for article in latest_articles_list %}
+                <tr>
+                    <td>
+                        <div class="blog-post">
+                            <h3 class="blog-post-title"><a href={{article.article_url}}>{{article.name}}</a></h3>
+                            <p class="blog-post-meta">{{article.votes}} Votes  <a href={% url 'article' article.category.name article.id %}>{{article.comments}} Comments</a>  Posted by {{article.user.username}} on {{article.pub_date}} to 
+                                <a href={% url 'category' article.category.name %}>{{article.category.name}}</a>
+                                <a href={% url 'article_vote' article.category.name article.id 1%}><button type="button" class="btn btn-xs btn-success"> Up </button></a>
+                                <a href={% url 'article_vote' article.category.name article.id -1%}><button type="button" class="btn btn-xs btn-danger">Down</button></a>
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% if is_all %}
+            <p>Sorry no more articles :(</p>
+        {% else %}
+            <a href={% url 'index_more' page_num %}><button class="btn btn-primary btn-block"><h3>More!</h3></button></a>
+        {% endif %}
+    {% else %}
+        <p>No recently added articles :( </p>
+        <p>Why not try adding new one yourself?</p>
+    {% endif %}
+{% endblock %}

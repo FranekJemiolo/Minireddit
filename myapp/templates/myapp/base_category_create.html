@@ -1,0 +1,33 @@
+{% extends "myapp/base.html" %}
+{% block title %}
+    Create new category
+{% endblock %}
+{% block urlblock %}
+    <li><a href={% url 'index' %}>Home</a></li>
+    <li><a href={% url 'top' %}>Top</a></li>
+    <li><a href={% url 'about' %}>About</a></li>
+    <li><a href={% url 'contact' %}>Contact</a></li>
+    <li><a href={% url 'categories'%}>All categories</a></li>
+    <li><a href={% url 'mycategories'%}>My categories</a></li>
+    <li><a href={% url 'advanced_search'%}>Advanced search</a></li>
+{% endblock %}
+{% block content %}
+    {% if created %}
+        <p>Successfully created new category! You can now view it in All categories and add new articles. You can also add it to your newsfeed.</p>
+    {% endif %}
+    <form action="" name="category_form" id="category_form" method="post" class="form-inline">
+        {% if alreadycreated %}
+            <p>Category already created or wrong name!</p>
+        {% endif %}
+        {% csrf_token %}
+        <p>Enter below the name of the category you want to create.</p>
+        <div class="form-group">
+            <label class="sr-only" for="name">New category</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Category">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Create!</button>
+        
+    </form>
+{% endblock %}
